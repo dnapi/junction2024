@@ -3,6 +3,7 @@ Manual on ifcopenshell is here
 https://docs.ifcopenshell.org/ifcopenshell-python/hello_world.html
 
 
+
 # Standard Shape Entities in IFC Files
 
 In IFC files, specific entities are used to represent standard shape profiles. These predefined geometric profiles simplify the modeling of common cross-sections in building elements such as beams, columns, and pipes.
