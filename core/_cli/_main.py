@@ -7,10 +7,6 @@ from pathlib import Path
 
 import ifcopenshell
 import ifcopenshell.geom
-import numpy as np
-import pandas as pd
-
-# import matplotlib.pyplot as plt
 
 # TODO: Convert to CLI utility
 
@@ -28,6 +24,7 @@ pairs = [
 tolerance = 0.002  # TODO: Research the tolerance value
 merge_distance = 0.1  # [m]
 filter_dimensions = {"height": 200e-3, "width": 100e-3, "length": 1.5}
+is_all = True
 
 # %%
 model = ifcopenshell.open(fpath)
@@ -47,7 +44,6 @@ if iterator.initialize():
 
 
 # %% Find clashes
-# TODO: Wrap it up to a function
 clashes = []
 for pair in pairs:
     clashes += list(
@@ -71,23 +67,25 @@ def _get_material(entity: ifcopenshell.entity_instance) -> str:
     return material
 
 
+@cache
 def _get_sizes(entity: ifcopenshell.entity_instance) -> dict:
     if not entity.IsDefinedBy:
         return {}
 
     sizes = {}
     for definition in entity.IsDefinedBy:
-        if definition.is_a("IfcRelDefinesByProperties") and (
-            prop_set := definition.RelatingPropertyDefinition
-        ).is_a("IfcPropertySet"):
-            for prop in prop_set.HasProperties:
-                if prop.is_a("IfcPropertySingleValue") and prop.Name in [
+        if definition.is_a(
+            "IfcRelDefinesByProperties"
+        ) and definition.RelatingPropertyDefinition.is_a("IfcPropertySet"):
+            for prop in definition.RelatingPropertyDefinition.HasProperties:
+                if prop.is_a("IfcPropertySingleValue") and prop.Name.lower() in [
                     "height",
                     "width",
                     "length",
                     "depth",
                 ]:
-                    sizes[prop.Name] = prop.NominalValue.wrappedValue
+                    sizes[prop.Name.lower()] = prop.NominalValue.wrappedValue
+
     return sizes
 
 
@@ -102,8 +100,7 @@ def extract_entity(entity: ifcopenshell.entity_instance) -> dict:
     }
 
 
-# TODO: Filter out by LxWxH
-intersections = []
+id_to_intersection = {}
 for clash in clashes:
     raw = {}
     raw["coords"] = [
@@ -114,46 +111,73 @@ for clash in clashes:
         extract_entity(model.by_id(clash.a.id())),
         extract_entity(model.by_id(clash.b.id())),
     ]
-    raw["clash_type"] = ["protrusion", "pierce", "collision", "clearance"][
-        clash.clash_type
-    ]
-    intersections.append(raw)
-intersections
+    raw["clash_type"] = {
+        ["protrusion", "pierce", "collision", "clearance"][clash.clash_type]
+    }
+    id_to_intersection["".join([entry["guid"] for entry in raw["entities"]])] = raw
+len(id_to_intersection)
 
 
-# %% Merge intersections
+# %% Find close intersections
 @cache
 def _distance(*args) -> float:
     return math.sqrt(sum((lhs - rhs) ** 2 for lhs, rhs in zip(args[0:3], args[3:6])))
 
 
 merges = set()
-for i, outer in enumerate(intersections):
-    indices = [i]
-    for j, inner in enumerate(intersections):
-        if i != j and _distance(*outer["coords"], *inner["coords"]) < merge_distance:
-            indices.append(j)
+for outer_key, outer in id_to_intersection.items():
+    keys = [outer_key]
+    for inner_key, inner in id_to_intersection.items():
+        if (
+            inner_key != outer_key
+            and _distance(*outer["coords"], *inner["coords"]) < merge_distance
+        ):
+            keys.append(inner_key)
 
-    if len(indices) > 1:
-        merges.add(frozenset(indices))
+    if len(keys) > 1:
+        merges.add(frozenset(keys))
 merges
 
-# %%
-# TODO: Filter intersections out by LxWxH from filter_dimensions
-# for intersection in intersections:
-#     for entity in intersection["entities"]:
-#         entity["sizes"] = {
-#             key: value
-#             for key, value in entity["sizes"].items()
-#             if key in ["Height", "Width", "Length"]
-#         }
+
+# %% Filter intersections out by LxWxH from filter_dimensions
+for id, intersection in id_to_intersection.items():
+    is_filtered = False
+    for entity in intersection["entities"]:
+        is_less = [
+            entity["sizes"][dim] < filter_dimensions[dim]
+            for dim in ["height", "width", "length"]
+        ]
+        if (is_all and all(is_less)) or (not is_all and any(is_less)):
+            is_filtered = True
+            break
+
+    if is_filtered:
+        del id_to_intersection[id]
+len(id_to_intersection)
+
+
+# %% Merge close intersections
+# merged = []
+# for keys in merges:
+keys = list(list(merges)[0])  # list(merge)
+
+for key in keys[1:]:
+    id_to_intersection[keys[0]]["entities"].extend(id_to_intersection[key]["entities"])
+    # id_to_intersection[keys[0]]["entities"]
+    id_to_intersection[keys[0]]["clash_type"].update(
+        id_to_intersection[key]["clash_type"]
+    )
+    del id_to_intersection[key]
+len(id_to_intersection)
+
 
 # %% Group items by the combination of elem_a and elem_b materials
 # TODO: STEEL treatment
 grouped = defaultdict(list)
-for intersection in intersections:
-    materials = sorted([entity["material"] for entity in intersection["entities"]])
-    group = f"{materials[0]}-{materials[1]}"
+for intersection in id_to_intersection.values():
+    group = "<->".join(
+        sorted([entity["material"] for entity in intersection["entities"]])
+    )
     grouped[group].append(intersection)
 dict(grouped)
 
