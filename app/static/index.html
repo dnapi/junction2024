@@ -8,291 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap"
       rel="stylesheet"
     />
-    <style>
-      .background-div {
-        position: absolute;
-        left: 0%;
-        top: 0%;
-        background-image: url("/static/assets/background.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        height: 860px;
-        width: 100%;
-        opacity: 0.4;
-      }
-      .background-div::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-      }
-
-      .background-div > * {
-        position: relative;
-        z-index: 2;
-      }
-      .beamrx-logo {
-        position: absolute;
-        left: 2.4%;
-        top: 3%;
-        background-image: url("/static/assets/beamrx.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-        height: 100px;
-        width: 300px;
-      }
-      .peikko-logo {
-        position: absolute;
-        right: 1%;
-        top: 5.1%;
-        background-image: url("/static/assets/peikko.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-        height: 100px;
-        width: 400px;
-      }
-      .table-settings {
-        position: absolute;
-        left: 27.8%;
-        top: 20%;
-        height: 640px;
-        width: 770px;
-        background-color: rgba(26, 26, 26, 0.9);
-        border-radius: 45px;
-      }
-      .table-results {
-        position: absolute;
-        left: 3.1%;
-        top: 20%;
-        height: 550px;
-        width: 1615px;
-        background-color: rgba(26, 26, 26, 0.8);
-        border-radius: 45px;
-      }
-      .button {
-        position: absolute;
-        top: 90%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        color: #fff;
-        font: 400 28px Acme, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .button-upload {
-        padding: 12px 80px;
-        left: 3.1%;
-      }
-      .button-download {
-        padding: 12px 80px;
-        left: 70.5%;
-      }
-      .button-type-selector {
-        padding: 12px 50px;
-      }
-      .dropdown {
-        top: 90%;
-        left: 88.7%;
-        position: absolute;
-        display: inline-block;
-      }
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        border-radius: 10%;
-        min-width: 100px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-      .dropdown-content a {
-        color: black;
-        padding: 10px 12px;
-        text-decoration: none;
-        display: block;
-      }
-      .dropdown-content a:hover {
-        background-color: #ddd;
-      }
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      /* Model view settings */
-      .model-view-settings-train-model-button {
-        position: absolute;
-        top: 87%;
-        left: 7%;
-        border-radius: 45px;
-        padding: 10px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .model-view-settings-form-table {
-        position: absolute;
-        top: 87%;
-        left: 62.5%;
-        border-radius: 45px;
-        padding: 10px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .model-view-settings-title {
-        position: absolute;
-        left: 21%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 40px Lato, sans-serif;
-      }
-      .model-view-settings-tender-number {
-        position: absolute;
-        left: 7.5%;
-        top: 11%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 32px Lato, sans-serif;
-      }
-      .model-view-settings-input-field {
-        position: absolute;
-        left: 10%;
-        top: 25%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-open-tender {
-        position: absolute;
-        top: 20%;
-        right: 10.5%;
-        border-radius: 45px;
-        padding: 10px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 24px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .model-view-settings-size-filter {
-        position: absolute;
-        left: 5.5%;
-        top: 30%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 32px Lato, sans-serif;
-      }
-      .model-view-settings-length {
-        position: absolute;
-        left: 5.5%;
-        top: 40%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-width {
-        position: absolute;
-        left: 5.5%;
-        top: 48%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-height {
-        position: absolute;
-        left: 5.5%;
-        top: 56%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-tolerance {
-        position: absolute;
-        left: 5.5%;
-        top: 64%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-ifc-file {
-        position: absolute;
-        left: 5.5%;
-        top: 72%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-length-input {
-        position: absolute;
-        right: 10%;
-        top: 45%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-width-input {
-        position: absolute;
-        right: 10%;
-        top: 53%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-height-input {
-        position: absolute;
-        right: 10%;
-        top: 61%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-tolerance-input {
-        position: absolute;
-        right: 10%;
-        top: 69%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-upload-ifc {
-        position: absolute;
-        top: 77%;
-        right: 15%;
-        border-radius: 45px;
-        padding: 3px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 24px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-    </style>
+    <link href="/static/styles.css" rel="stylesheet" />
   </head>
   <body>
     <div class="background-div"></div>
@@ -305,7 +21,10 @@
       <h1 class="model-view-settings-title">Model view settings</h1>
       <h2 class="model-view-settings-tender-number">Tender number</h2>
       <h2 class="model-view-settings-size-filter">Element size filter</h2>
-      <button class="model-view-settings-train-model-button">
+      <button
+        class="model-view-settings-train-model-button"
+        onclick="showTrainingTable()"
+      >
         Training model
       </button>
       <button class="model-view-settings-form-table">Form table</button>
@@ -353,14 +72,115 @@
       />
       <button
         class="model-view-settings-upload-ifc"
-        onclick="triggerFileUpload()"
+        onclick="triggerIFCFileUpload()"
       >
         Select file
       </button>
-      <input type="file" id="file-upload" style="display: none" />
+      <input type="file" id="ifc-file-upload" style="display: none" />
+      <label class="table-settings-checkbox">
+        <input type="checkbox" id="sizeFilterCheckbox" />
+        Strict mode
+      </label>
     </div>
 
     <!-- Training container -->
+
+    <div id="tableTraining" class="table-training">
+      <h1 class="training-model-header">Training model</h1>
+      <h2 class="training-model-upload-ifc-header">Upload IFC file</h2>
+      <h2 class="training-model-upload-excel-header">Upload Excel file</h2>
+      <button
+        class="training-model-upload-ifc"
+        onclick="triggerIFCFileUploadTraining()"
+      >
+        Select file
+      </button>
+      <input type="file" id="ifc-file-upload-training" style="display: none" />
+
+      <button
+        class="training-model-upload-excel"
+        onclick="triggerExcelFileUpload()"
+      >
+        Select file
+      </button>
+      <input
+        type="file"
+        id="excel-file-upload-training"
+        style="display: none"
+      />
+      <h2 class="training-model-standard-field-name">
+        Standardized field name
+      </h2>
+      <h2 class="training-model-excel-field-name">Field name in Excel file</h2>
+      <div class="material-type-1-container">
+        <h1 class="material-type-common material-type-1" tabindex="0">
+          Connection-type
+        </h1>
+      </div>
+      <div class="material-type-2-container">
+        <h1 class="material-type-common material-type-2" tabindex="0">
+          Material
+        </h1>
+      </div>
+      <div class="material-type-3-container">
+        <h1 class="material-type-common material-type-3" tabindex="0">
+          LxWxH, mm
+        </h1>
+      </div>
+      <div class="material-type-4-container">
+        <h1 class="material-type-common material-type-4" tabindex="0">
+          Connection item
+        </h1>
+      </div>
+      <div class="material-type-5-container">
+        <h1 class="material-type-common material-type-5" tabindex="0">
+          Comments
+        </h1>
+      </div>
+
+      <input
+        id="connection-type-accord"
+        class="connection-type-accord"
+        type="text"
+        placeholder="Enter connection type as in an excel file"
+        aria-label="Enter connection type as in an excel file"
+      />
+      <input
+        id="material-accord"
+        class="material-accord"
+        type="text"
+        placeholder="Enter material as in an excel file"
+        aria-label="Enter material as in an excel file"
+      />
+      <input
+        id="sizes-accord"
+        class="sizes-accord"
+        type="text"
+        placeholder="Enter sizes as in an excel file"
+        aria-label="Enter sizes as in an excel file"
+      />
+      <input
+        id="connection-item-accord"
+        class="connection-item-accord"
+        type="text"
+        placeholder="Enter connection item as in an excel file"
+        aria-label="Enter connection item as in an excel file"
+      />
+      <input
+        id="comments-accord"
+        class="comments-accord"
+        type="text"
+        placeholder="Enter comments as in an excel file"
+        aria-label="Enter comments as in an excel file"
+      />
+
+      <button class="training-model-back-to-menu" onclick="showSettingsTable()">
+        Back
+      </button>
+      <button class="training-model-train-button" onclick="showTrainingTable()">
+        Train
+      </button>
+    </div>
 
     <!-- Summary table container -->
 
@@ -381,8 +201,18 @@
       document.getElementById("tableTraining").style.display = "none";
     </script>
     <script>
-      function triggerFileUpload() {
-        document.getElementById("file-upload").click();
+      function triggerIFCFileUpload() {
+        document.getElementById("ifc-file-upload").click();
+      }
+    </script>
+    <script>
+      function triggerIFCFileUploadTraining() {
+        document.getElementById("ifc-file-upload-training").click();
+      }
+    </script>
+    <script>
+      function triggerExcelFileUpload() {
+        document.getElementById("excel-file-upload-training").click();
       }
     </script>
   </body>
