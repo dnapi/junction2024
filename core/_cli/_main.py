@@ -1,4 +1,5 @@
 # %%
+import math
 import multiprocessing
 from collections import defaultdict
 from pathlib import Path
@@ -34,10 +35,10 @@ iterator = ifcopenshell.geom.iterator(settings, model, multiprocessing.cpu_count
 if iterator.initialize():
     while True:
         # Use triangulation to build a BVH tree
-        tree.add_entity(iterator.get())
+        tree.add_element(iterator.get())
 
         # Alternatively, use this code to build an unbalanced binary tree
-        # tree.add_entity(iterator.get_native())
+        # tree.add_element(iterator.get_native())
 
         if not iterator.next():
             break
@@ -116,7 +117,7 @@ intersections
 
 # %%
 # TODO: Merge close clashes which fit into the clash_size
-clash_size = 0.1  # [m]
+
 
 # %%
 # TODO: Filter intersections out by LxWxH
