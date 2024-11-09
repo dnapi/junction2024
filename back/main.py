@@ -1,9 +1,12 @@
+from pathlib import Path
 import uvicorn
 from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
 from typing import Optional
 from fastapi.responses import JSONResponse
 import os
+import json
+from core import core  # Импорт функции core из модуля core
 
 app = FastAPI()
 
@@ -18,13 +21,12 @@ class ElementFilter(BaseModel):
     width: Optional[float] = None
     tolerance: Optional[float] = None
 
-# Скелет функции обработки данных
-def process_ifc_data(request_data: dict):
-    # Заглушка для будущей реализации
-    print("Полученные данные для обработки:", request_data)
-    return "OK"
+# Функция для преобразования set в list при сериализации JSON
+def set_default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
-# Основной маршрут для загрузки файла и фильтра
 @app.post("/process_ifc")
 async def upload_ifc(ifc_file: UploadFile = File(...),
                      length: Optional[float] = Form(None),
@@ -38,10 +40,19 @@ async def upload_ifc(ifc_file: UploadFile = File(...),
         file_content = await ifc_file.read()
         temp_file.write(file_content)
 
-    # Создание словаря данных для обработки
+    # Создание словаря данных для передачи в core с параметрами по умолчанию
     request_data = dict(
-        fpath=temp_file_path,
+        fpath=Path(temp_file_path),
+        pairs=[
+            ("IfcWall", "IfcWall"),
+            ("IfcWall", "IfcBeam"),
+            ("IfcWall", "IfcColumn"),
+            ("IfcBeam", "IfcBeam"),
+            ("IfcBeam", "IfcColumn"),
+            ("IfcColumn", "IfcColumn"),
+        ],
         tolerance=tolerance if tolerance is not None else 0.002,  # значение по умолчанию
+        merge_distance=0.1,  # значение по умолчанию
         filter_dimensions={
             "height": height if height is not None else 200e-3,
             "width": width if width is not None else 100e-3,
@@ -50,10 +61,14 @@ async def upload_ifc(ifc_file: UploadFile = File(...),
         is_all=True
     )
 
-    # Вызов функции обработки
-    result = process_ifc_data(request_data)
-    
-    return JSONResponse(content={"message": result})
+    # Вызов функции core и получение результата
+    result = core(**request_data)
+
+    # Удаление временного файла после обработки
+    os.remove(temp_file_path)
+
+    # Возврат результата в виде JSON-ответа, преобразуя set в list
+    return JSONResponse(content=json.loads(json.dumps(result, default=set_default)))
 
 # Запуск сервера
 if __name__ == "__main__":
