@@ -4,6 +4,9 @@
 #include <vector>
 #include <set>
 #include <regex>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 // void add_numbers(std::string input, std::set<int>& numbers, std::vector<int>& line_numbers) {
 //     std::regex pattern("#(\\d+)"); // Regex to match numbers after #
@@ -107,10 +110,37 @@ std::string extractIFCEntity(const std::string& input) {
     return ""; // Return an empty string if the format is incorrect
 }
 
+void saveToFile(const std::set<int> numbers, int position_data, const std::vector<std::string>& header, const std::vector<std::string>& lines, const std::string& filename) {
+    // Open the file in write mode
+    std::ofstream outfile(filename);
+
+    // Check if the file was opened successfully
+    if (!outfile.is_open()) {
+        std::cerr << "Failed to open file " << filename << std::endl;
+        return;
+    }
+
+    // Write each string in the vector to the file
+    for (int i = 0; i < position_data; i++) {
+        outfile << header[i] << std::endl;  // Write the line followed by a newline
+    }
+
+    for (int i : numbers) {
+        outfile << lines[i - 1] << std::endl;  // Write the line followed by a newline
+    }
+
+    for (int i = position_data; i < header.size(); i++) {
+        outfile << header[i] << std::endl;  // Write the line followed by a newline
+    }
+    // Close the file
+    outfile.close();
+}
+
 
 int main() {
     // Open the file
-    std::ifstream file("../ifc_examples_peikko/WoodenOffice.ifc");
+    std::string filename = "../ifc_examples_peikko/WoodenOffice.ifc";
+    std::ifstream file(filename);
     
     // Check if the file opened successfully
     if (!file.is_open()) {
@@ -120,66 +150,70 @@ int main() {
 
     std::string line;
     std::vector<std::string> lines;
+    std::vector<std::string> header;
     std::set<int> all_numbers;
     std::set<int> line_numbers;
     // Read the file line by line
     int total = 0;
-    while (std::getline(file, line) && total < 5) {
-        // Check if the first non-comment line has been skipped
+    int postion_data = 0;
+    bool tail = false;
+    while (std::getline(file, line)) { // && total < 50000000
+        // Taking header
         if (!line.empty() && line[0] != '#') {
-            std::cout << "Skipped first non-comment line" << std::endl;
+            header.push_back(line);
+            if (!tail) {
+                postion_data++;
+            }
             continue;
         }
+        tail = true;
         lines.push_back(line);
         if (extractIFCEntity(line) == "IFCBEAM") {
             total++;
-            //std::cout << "Found IFCBEAM" << std::endl;
-            std::cout << line << std::endl;
             add_numbers(line, all_numbers, line_numbers);
         }
     }
     // Close the file
     file.close();
-    std::cout << "Total lines found: " << total << std::endl;
-
-    // Print the numbers
-    std::cout << "All numbers: " << all_numbers.size() << std::endl;
-    for (int num : all_numbers) {
-       std::cout << num << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "line_numbers: " << line_numbers.size() << std::endl;
-    for (int num : line_numbers) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "lines: " << lines.size() << std::endl;
     
-    while (all_numbers.size() > 0) {
-        for (int i :  all_numbers) {
-            std::cout << "i=" << i;
+    while (!all_numbers.empty()) {
+        std::set<int> to_remove;  // Set to store numbers to be removed after iteration
+
+        for (int i : all_numbers) {
             add_numbers(lines[i - 1], all_numbers, line_numbers);
-            all_numbers.erase(i);
-            std::cout << "all_numbers: " << all_numbers.size() << std::endl;
-            std::cout << "line_numbers: " << line_numbers.size() << std::endl;
+            // Mark the number for removal
+            to_remove.insert(i);
         }
-        std::cout << std::endl;
-        break;
-        //std::cout << *all_numbers.begin() << " ";
-        //all_numbers.erase(all_numbers.begin());
+
+        // Now remove all the numbers from the set
+        for (int i : to_remove) {
+            all_numbers.erase(i);
+        }
     }
 
-    // Print the numbers
-    std::cout << "All numbers: " << all_numbers.size() << std::endl;
-    for (int num : all_numbers) {
-       std::cout << num << " ";
+    std::cout << "Total number of found IFCBEAM: " << line_numbers.size() << std::endl;
+
+    saveToFile(line_numbers, postion_data, header, lines, "ifc_beam_only.ifc");
+
+    std::cout << "File with extacted size to ifc_beam_only.ifc\n";
+
+
+    try {
+        std::string file1 = filename;
+        std::string file2 = "ifc_beam_only.ifc";
+        auto size1 = fs::file_size(file1);
+        auto size2 = fs::file_size(file2);
+
+         // Convert size from bytes to megabytes (MB)
+        double size1MB = static_cast<double>(size1) / (1024 * 1024);
+        double size2MB = static_cast<double>(size2) / (1024 * 1024);
+
+        std::cout << "Size of original file " << ": " << static_cast<int>(size1MB) << " MB\n";
+        std::cout << "Size of extracted file" << ": " << static_cast<int>(size2MB) << " MB\n";
+    } catch (const fs::filesystem_error& e) {
+        std::cerr << "Error: " << e.what() << '\n';
     }
-    std::cout << std::endl;
-    std::cout << "line_numbers: " << line_numbers.size() << std::endl;
-    for (int num : line_numbers) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
+
 
     return 0;
 }
