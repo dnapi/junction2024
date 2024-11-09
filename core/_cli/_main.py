@@ -1,5 +1,6 @@
 # %%
 import multiprocessing
+from collections import defaultdict
 from pathlib import Path
 
 import ifcopenshell
@@ -15,7 +16,7 @@ import pandas as pd
 # TODO: Wrap it up to .yaml or .json input file
 fpath = Path("../../ifc_examples_peikko/One_Section.ifc")
 pairs = [
-    ("IfcWall", "IfcWall"),  # TODO: Ask Peikko about the wall-wall clashes and others
+    ("IfcWall", "IfcWall"),
     ("IfcWall", "IfcBeam"),
     ("IfcWall", "IfcColumn"),
     ("IfcBeam", "IfcBeam"),
@@ -33,10 +34,10 @@ iterator = ifcopenshell.geom.iterator(settings, model, multiprocessing.cpu_count
 if iterator.initialize():
     while True:
         # Use triangulation to build a BVH tree
-        tree.add_element(iterator.get())
+        tree.add_entity(iterator.get())
 
         # Alternatively, use this code to build an unbalanced binary tree
-        # tree.add_element(iterator.get_native())
+        # tree.add_entity(iterator.get_native())
 
         if not iterator.next():
             break
@@ -57,58 +58,76 @@ for pair in pairs:
 
 
 # %% Build DataFrame
-def _get_material(element):
+def _get_material(entity: ifcopenshell.entity_instance) -> str:
     material = None
-    if element.HasAssociations:
-        for assoc in element.HasAssociations:
+    if entity.HasAssociations:
+        for assoc in entity.HasAssociations:
             if assoc.is_a("IfcRelAssociatesMaterial"):
                 material = assoc.RelatingMaterial.Name
                 break
     return material
 
 
-data = []
+def _get_sizes(entity: ifcopenshell.entity_instance):
+    sizes = {}
+    if entity.IsDefinedBy:
+        for definition in entity.IsDefinedBy:
+            if definition.is_a("IfcRelDefinesByProperties"):
+                prop_set = definition.RelatingPropertyDefinition
+                if prop_set.is_a("IfcPropertySet"):
+                    for prop in prop_set.HasProperties:
+                        if prop.is_a("IfcPropertySingleValue") and prop.Name in [
+                            "Height",
+                            "Width",
+                            "Length",
+                            "Depth",
+                        ]:
+                            sizes[prop.Name] = prop.NominalValue.wrappedValue
+    return sizes
+
+
+def extract_entity(entity: ifcopenshell.entity_instance) -> dict:
+    material = _get_material(entity).split("/", 1)
+    return {
+        "entity": entity.is_a(),
+        "guid": entity.GlobalId,
+        "material": material[0],
+        "spec": material[1],
+        "sizes": _get_sizes(entity),
+    }
+
+
+# TODO: Filter out by LxWxH
+intersections = []
 for clash in clashes:
     # Mean average of two points
-    raw = [(lhs + rhs) / 2.0 for lhs, rhs in zip(clash.p1, clash.p2)]
-
-    # Distance
-    raw.append(clash.distance)
-
-    # Object a
-    raw.append(model.by_id(clash.a.id()).GlobalId)
-    raw += _get_material(model.by_id(clash.a.id())).split("/", 1)
-
-    # Object b
-    raw.append(model.by_id(clash.b.id()).GlobalId)
-    raw += _get_material(model.by_id(clash.b.id())).split("/", 1)
-
-    # Clash type
-    raw.append(["protrusion", "pierce", "collision", "clearance"][clash.clash_type])
-    # IPA, HEA profile; L1.5mH200mm, W100mm
-    data.append(raw)
-df = pd.DataFrame(
-    data,
-    columns=[
-        "x",
-        "y",
-        "z",
-        "distance",
-        "guid_a",
-        "material_a",
-        "spec_a",
-        "guid_b",
-        "material_b",
-        "spec_b",
-        "clash_type",
-    ],
-)
-df
+    raw = {}
+    raw["coords"] = [(lhs + rhs) / 2.0 for lhs, rhs in zip(clash.p1, clash.p2)]
+    raw["distance"] = clash.distance
+    raw["entities"] = [
+        extract_entity(model.by_id(clash.a.id())),
+        extract_entity(model.by_id(clash.b.id())),
+    ]
+    raw["clash_type"] = ["protrusion", "pierce", "collision", "clearance"][
+        clash.clash_type
+    ]
+    intersections.append(raw)
+intersections
 
 # %%
-# [
-#     ["protrusion", "pierce", "collision", "clearance"][clash.clash_type]
-#     for clash in clashes
-# ]
-# IPA, HEA profile; L1.5mH200mm, W100
+# TODO: Merge close clashes which fit into the clash_size
+clash_size = 0.1  # [m]
+
+# %%
+# TODO: Filter intersections out by LxWxH
+
+
+# %% Group items by the combination of elem_a and elem_b materials
+grouped = defaultdict(list)
+for intersection in intersections:
+    materials = sorted([entity["material"] for entity in intersection["entities"]])
+    group = f"{materials[0]}-{materials[1]}"
+    grouped[group].append(intersection)
+dict(grouped)
+
 # %%
