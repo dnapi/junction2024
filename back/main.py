@@ -1,10 +1,9 @@
 from pathlib import Path
 import uvicorn
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Dict, Any
 import os
 import json
 from core import core  # Импорт функции core из модуля core
@@ -31,13 +30,6 @@ async def read_root():
         content = file.read()
     return HTMLResponse(content=content)
 
-# Модель фильтра для элементов
-class ElementFilter(BaseModel):
-    length: Optional[float] = None
-    height: Optional[float] = None
-    width: Optional[float] = None
-    tolerance: Optional[float] = None
-
 # Функция для преобразования set в list при сериализации JSON
 def set_default(obj):
     if isinstance(obj, set):
@@ -45,19 +37,20 @@ def set_default(obj):
     raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
 @app.post("/process_ifc")
-async def upload_ifc(ifc_file: UploadFile = File(...),
-                     length: Optional[float] = Form(None),
-                     height: Optional[float] = Form(None),
-                     width: Optional[float] = Form(None),
-                     tolerance: Optional[float] = Form(None)):
+async def upload_ifc(
+    request: Request,
+    ifc_file: UploadFile = File(...)  # обязательный файл
+):
+
+    # Получение всех параметров из запроса (кроме файла)
+    form_data = await request.form()
+    optional_params = {key: form_data[key] for key in form_data if key != "ifc_file"}
 
     # Печать параметров, которые пришли по REST API
     print(f"Received parameters:")
     print(f"File name: {ifc_file.filename}")
-    print(f"Length: {length}")
-    print(f"Height: {height}")
-    print(f"Width: {width}")
-    print(f"Tolerance: {tolerance}")
+    for key, value in optional_params.items():
+        print(f"{key}: {value}")
 
     # Сохранение файла в указанной директории
     temp_file_path = os.path.join(TEMP_DIR, ifc_file.filename)
@@ -76,12 +69,12 @@ async def upload_ifc(ifc_file: UploadFile = File(...),
             ("IfcBeam", "IfcColumn"),
             ("IfcColumn", "IfcColumn"),
         ],
-        tolerance=tolerance if tolerance is not None else 0.002,
+        tolerance=float(optional_params.get("tolerance", 0.002)),
         merge_distance=0.1,
         filter_dimensions={
-            "height": height if height is not None else 200e-3,
-            "width": width if width is not None else 100e-3,
-            "length": length if length is not None else 1.5
+            "height": float(optional_params.get("height", 200e-3)),
+            "width": float(optional_params.get("width", 100e-3)),
+            "length": float(optional_params.get("length", 1.5))
         },
         is_all=True
     )
