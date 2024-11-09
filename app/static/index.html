@@ -299,6 +299,8 @@
     <div class="beamrx-logo"></div>
     <div class="peikko-logo"></div>
 
+    <!-- Settings container -->
+
     <div id="tableSettings" class="table-settings">
       <h1 class="model-view-settings-title">Model view settings</h1>
       <h2 class="model-view-settings-tender-number">Tender number</h2>
@@ -358,43 +360,25 @@
       <input type="file" id="file-upload" style="display: none" />
     </div>
 
-    <div id="tableResults" class="table-results"></div>
-    <button id="uploadButton" class="button button-upload">
-      Upload information
-    </button>
-    <button id="downloadButton" class="button button-download">Download</button>
-    <div class="dropdown">
-      <button id="dropdownButton" class="button button-type-selector">
-        .csv
-      </button>
-      <div class="dropdown-content">
-        <a href="#" onclick="updateButtonText('.csv')">.csv</a>
-        <a href="#" onclick="updateButtonText('.xlsx')">.xlsx</a>
-      </div>
-    </div>
+    <!-- Training container -->
 
-    <script>
-      function updateButtonText(selection) {
-        const button = document.getElementById("dropdownButton");
-        button.textContent = selection;
-      }
-    </script>
+    <!-- Summary table container -->
+
+    <!-- Summary table container 2 -->
+
     <script>
       function showSettingsTable() {
         document.getElementById("tableSettings").style.display = "block";
-        document.getElementById("tableResults").style.display = "none";
+        document.getElementById("tableTraining").style.display = "none";
       }
 
-      function showResultsTable() {
+      function showTrainingTable() {
         document.getElementById("tableSettings").style.display = "none";
-        document.getElementById("tableResults").style.display = "block";
+        document.getElementById("tableTraining").style.display = "block";
       }
 
       document.getElementById("tableSettings").style.display = "block";
-      document.getElementById("tableResults").style.display = "none";
-      document.getElementById("uploadButton").style.display = "none";
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("dropdownButton").style.display = "none";
+      document.getElementById("tableTraining").style.display = "none";
     </script>
     <script>
       function triggerFileUpload() {
