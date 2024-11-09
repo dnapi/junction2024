@@ -27,7 +27,9 @@
       >
         Training model
       </button>
-      <button class="model-view-settings-form-table">Form table</button>
+      <button class="model-view-settings-form-table" onclick="sendFormData()">
+        Form table
+      </button>
       <button class="model-view-settings-open-tender">Open tender</button>
       <input
         id="tender-input"
@@ -37,10 +39,12 @@
         aria-label="Enter tender number"
       />
 
-      <h2 class="model-view-settings-length">Length, mm</h2>
-      <h2 class="model-view-settings-width">Width, mm</h2>
-      <h2 class="model-view-settings-height">Height, mm</h2>
-      <h2 class="model-view-settings-tolerance">Tolerance</h2>
+      <h2 class="model-view-settings-length" id="length-input">Length, mm</h2>
+      <h2 class="model-view-settings-width" id="width-input">Width, mm</h2>
+      <h2 class="model-view-settings-height" id="height-input">Height, mm</h2>
+      <h2 class="model-view-settings-tolerance" id="tolerance-input">
+        Tolerance
+      </h2>
       <h2 class="model-view-settings-ifc-file">Upload IFC file</h2>
       <input
         id="length-input"
@@ -213,6 +217,60 @@
     <script>
       function triggerExcelFileUpload() {
         document.getElementById("excel-file-upload-training").click();
+      }
+    </script>
+    <script>
+      function sendFormData() {
+        // Gather form data from inputs
+        const fileInput = document.getElementById("ifc-file-upload");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Please select a file");
+          return;
+        }
+
+        const data = {
+          tenderNumber: document.getElementById("tender-input").value,
+          length: document.getElementById("length-input").value,
+          width: document.getElementById("width-input").value,
+          height: document.getElementById("height-input").value,
+          tolerance: document.getElementById("tolerance-input").value,
+          strictMode: document.getElementById("sizeFilterCheckbox").checked,
+        };
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("tenderNumber", data.tenderNumber);
+        formData.append("length", data.length);
+        formData.append("width", data.width);
+        formData.append("height", data.height);
+        formData.append("tolerance", data.tolerance);
+        formData.append("strictMode", data.strictMode);
+
+        // Send the data to the backend using fetch
+        fetch("http://127.0.0.1:8000/process_ifc", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to send data");
+            }
+          })
+          .then((responseData) => {
+            console.log("Server response:", responseData);
+            alert("Data sent successfully!");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Error sending data");
+          });
       }
     </script>
   </body>
