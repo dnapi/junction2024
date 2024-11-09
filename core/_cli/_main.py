@@ -157,17 +157,16 @@ len(id_to_intersection)
 
 
 # %% Merge close intersections
-# merged = []
-# for keys in merges:
-keys = list(list(merges)[0])  # list(merge)
-
-for key in keys[1:]:
-    id_to_intersection[keys[0]]["entities"].extend(id_to_intersection[key]["entities"])
-    # id_to_intersection[keys[0]]["entities"]
-    id_to_intersection[keys[0]]["clash_type"].update(
-        id_to_intersection[key]["clash_type"]
-    )
-    del id_to_intersection[key]
+for keys in merges:
+    keys = list(keys)
+    for key in keys[1:]:
+        id_to_intersection[keys[0]]["entities"].extend(
+            id_to_intersection[key]["entities"]
+        )
+        id_to_intersection[keys[0]]["clash_type"].update(
+            id_to_intersection[key]["clash_type"]
+        )
+        del id_to_intersection[key]
 len(id_to_intersection)
 
 
