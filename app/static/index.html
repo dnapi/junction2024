@@ -64,7 +64,7 @@
         top: 20%;
         height: 640px;
         width: 770px;
-        background-color: rgba(26, 26, 26, 0.8);
+        background-color: rgba(26, 26, 26, 0.9);
         border-radius: 45px;
       }
       .table-results {
@@ -285,8 +285,8 @@
         top: 77%;
         right: 15%;
         border-radius: 45px;
-        padding: 5px 50px;
-        background-color: rgba(26, 26, 26, 0.8);
+        padding: 3px 50px;
+        background-color: rgba(0, 112, 185, 1);
         color: #fff;
         font: 400 24px Lato, sans-serif;
         border: none;
@@ -349,7 +349,13 @@
         placeholder="Enter tolerance"
         aria-label="Enter tolerance"
       />
-      <button class="model-view-settings-upload-ifc">Select file</button>
+      <button
+        class="model-view-settings-upload-ifc"
+        onclick="triggerFileUpload()"
+      >
+        Select file
+      </button>
+      <input type="file" id="file-upload" style="display: none" />
     </div>
 
     <div id="tableResults" class="table-results"></div>
@@ -389,6 +395,11 @@
       document.getElementById("uploadButton").style.display = "none";
       document.getElementById("downloadButton").style.display = "none";
       document.getElementById("dropdownButton").style.display = "none";
+    </script>
+    <script>
+      function triggerFileUpload() {
+        document.getElementById("file-upload").click();
+      }
     </script>
   </body>
 </html>
