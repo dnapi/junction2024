@@ -41,6 +41,7 @@ if iterator.initialize():
 
 # %%
 # TODO: Parallelize with concurrent.futures
+# Alex comment:  it very fast even for larrge model . so no need to spent time on parallelization here
 clashes = []
 for pair in pairs:
     clashes += list(
