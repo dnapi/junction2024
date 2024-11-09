@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BeamrX</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .background-div {
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        background-image: url("/static/assets/background.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 860px;
+        width: 100%;
+        opacity: 0.4;
+      }
+      .background-div::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+
+      .background-div > * {
+        position: relative;
+        z-index: 2;
+      }
+      .beamrx-logo {
+        position: absolute;
+        left: 2.4%;
+        top: 3%;
+        background-image: url("/static/assets/beamrx.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        height: 100px;
+        width: 300px;
+      }
+      .peikko-logo {
+        position: absolute;
+        right: 1%;
+        top: 5.1%;
+        background-image: url("/static/assets/peikko.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        height: 100px;
+        width: 400px;
+      }
+      .table-settings {
+        position: absolute;
+        left: 27.8%;
+        top: 20%;
+        height: 640px;
+        width: 770px;
+        background-color: rgba(26, 26, 26, 0.8);
+        border-radius: 45px;
+      }
+      .table-results {
+        position: absolute;
+        left: 3.1%;
+        top: 20%;
+        height: 550px;
+        width: 1615px;
+        background-color: rgba(26, 26, 26, 0.8);
+        border-radius: 45px;
+      }
+      .button {
+        position: absolute;
+        top: 90%;
+        border-radius: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        color: #fff;
+        font: 400 28px Acme, sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+      .button-upload {
+        padding: 12px 80px;
+        left: 3.1%;
+      }
+      .button-download {
+        padding: 12px 80px;
+        left: 70.5%;
+      }
+      .button-type-selector {
+        padding: 12px 50px;
+      }
+      .dropdown {
+        top: 90%;
+        left: 88.7%;
+        position: absolute;
+        display: inline-block;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        border-radius: 10%;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      .dropdown-content a {
+        color: black;
+        padding: 10px 12px;
+        text-decoration: none;
+        display: block;
+      }
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      /* Model view settings */
+      .model-view-settings-train-model-button {
+        position: absolute;
+        top: 87%;
+        left: 7%;
+        border-radius: 45px;
+        padding: 10px 50px;
+        background-color: rgba(0, 112, 185, 1);
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+      .model-view-settings-form-table {
+        position: absolute;
+        top: 87%;
+        left: 62.5%;
+        border-radius: 45px;
+        padding: 10px 50px;
+        background-color: rgba(0, 112, 185, 1);
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+      .model-view-settings-title {
+        position: absolute;
+        left: 21%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 40px Lato, sans-serif;
+      }
+      .model-view-settings-tender-number {
+        position: absolute;
+        left: 7.5%;
+        top: 11%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 32px Lato, sans-serif;
+      }
+      .model-view-settings-input-field {
+        position: absolute;
+        left: 10%;
+        top: 25%;
+        border-radius: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        color: #fff;
+        font: 400 20px Lato, sans-serif;
+        padding: 5px 31px 5px;
+      }
+      .model-view-settings-open-tender {
+        position: absolute;
+        top: 20%;
+        right: 10.5%;
+        border-radius: 45px;
+        padding: 10px 50px;
+        background-color: rgba(0, 112, 185, 1);
+        color: #fff;
+        font: 400 24px Lato, sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+      .model-view-settings-size-filter {
+        position: absolute;
+        left: 5.5%;
+        top: 30%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 32px Lato, sans-serif;
+      }
+      .model-view-settings-length {
+        position: absolute;
+        left: 5.5%;
+        top: 40%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+      }
+      .model-view-settings-width {
+        position: absolute;
+        left: 5.5%;
+        top: 48%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+      }
+      .model-view-settings-height {
+        position: absolute;
+        left: 5.5%;
+        top: 56%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+      }
+      .model-view-settings-tolerance {
+        position: absolute;
+        left: 5.5%;
+        top: 64%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+      }
+      .model-view-settings-ifc-file {
+        position: absolute;
+        left: 5.5%;
+        top: 72%;
+        padding: 10px 50px;
+        color: #fff;
+        font: 400 28px Lato, sans-serif;
+      }
+      .model-view-settings-length-input {
+        position: absolute;
+        right: 10%;
+        top: 45%;
+        border-radius: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        color: #fff;
+        font: 400 20px Lato, sans-serif;
+        padding: 5px 31px 5px;
+      }
+      .model-view-settings-width-input {
+        position: absolute;
+        right: 10%;
+        top: 53%;
+        border-radius: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        color: #fff;
+        font: 400 20px Lato, sans-serif;
+        padding: 5px 31px 5px;
+      }
+      .model-view-settings-height-input {
+        position: absolute;
+        right: 10%;
+        top: 61%;
+        border-radius: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        color: #fff;
+        font: 400 20px Lato, sans-serif;
+        padding: 5px 31px 5px;
+      }
+      .model-view-settings-tolerance-input {
+        position: absolute;
+        right: 10%;
+        top: 69%;
+        border-radius: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        color: #fff;
+        font: 400 20px Lato, sans-serif;
+        padding: 5px 31px 5px;
+      }
+      .model-view-settings-upload-ifc {
+        position: absolute;
+        top: 77%;
+        right: 15%;
+        border-radius: 45px;
+        padding: 5px 50px;
+        background-color: rgba(26, 26, 26, 0.8);
+        color: #fff;
+        font: 400 24px Lato, sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-div"></div>
+    <div class="beamrx-logo"></div>
+    <div class="peikko-logo"></div>
+
+    <div id="tableSettings" class="table-settings">
+      <h1 class="model-view-settings-title">Model view settings</h1>
+      <h2 class="model-view-settings-tender-number">Tender number</h2>
+      <h2 class="model-view-settings-size-filter">Element size filter</h2>
+      <button class="model-view-settings-train-model-button">
+        Training model
+      </button>
+      <button class="model-view-settings-form-table">Form table</button>
+      <button class="model-view-settings-open-tender">Open tender</button>
+      <input
+        id="tender-input"
+        class="model-view-settings-input-field"
+        type="text"
+        placeholder="Enter tender number"
+        aria-label="Enter tender number"
+      />
+
+      <h2 class="model-view-settings-length">Length, mm</h2>
+      <h2 class="model-view-settings-width">Width, mm</h2>
+      <h2 class="model-view-settings-height">Height, mm</h2>
+      <h2 class="model-view-settings-tolerance">Tolerance</h2>
+      <h2 class="model-view-settings-ifc-file">Upload IFC file</h2>
+      <input
+        id="length-input"
+        class="model-view-settings-length-input"
+        type="text"
+        placeholder="Enter length in mm"
+        aria-label="Enter length in mm"
+      />
+      <input
+        id="width-input"
+        class="model-view-settings-width-input"
+        type="text"
+        placeholder="Enter width in mm"
+        aria-label="Enter width in mm"
+      />
+      <input
+        id="height-input"
+        class="model-view-settings-height-input"
+        type="text"
+        placeholder="Enter height in mm"
+        aria-label="Enter height in mm"
+      />
+      <input
+        id="tolerance-input"
+        class="model-view-settings-tolerance-input"
+        type="text"
+        placeholder="Enter tolerance"
+        aria-label="Enter tolerance"
+      />
+      <button class="model-view-settings-upload-ifc">Select file</button>
+    </div>
+
+    <div id="tableResults" class="table-results"></div>
+    <button id="uploadButton" class="button button-upload">
+      Upload information
+    </button>
+    <button id="downloadButton" class="button button-download">Download</button>
+    <div class="dropdown">
+      <button id="dropdownButton" class="button button-type-selector">
+        .csv
+      </button>
+      <div class="dropdown-content">
+        <a href="#" onclick="updateButtonText('.csv')">.csv</a>
+        <a href="#" onclick="updateButtonText('.xlsx')">.xlsx</a>
+      </div>
+    </div>
+
+    <script>
+      function updateButtonText(selection) {
+        const button = document.getElementById("dropdownButton");
+        button.textContent = selection;
+      }
+    </script>
+    <script>
+      function showSettingsTable() {
+        document.getElementById("tableSettings").style.display = "block";
+        document.getElementById("tableResults").style.display = "none";
+      }
+
+      function showResultsTable() {
+        document.getElementById("tableSettings").style.display = "none";
+        document.getElementById("tableResults").style.display = "block";
+      }
+
+      document.getElementById("tableSettings").style.display = "block";
+      document.getElementById("tableResults").style.display = "none";
+      document.getElementById("uploadButton").style.display = "none";
+      document.getElementById("downloadButton").style.display = "none";
+      document.getElementById("dropdownButton").style.display = "none";
+    </script>
+  </body>
+</html>
