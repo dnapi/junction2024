@@ -1,0 +1,656 @@
+{
+  "MISCELLANEOUS<->STEEL<->STEEL<->STEEL": [
+    {
+      "coords": [
+        6.012446517732524,
+        12.131390192409349,
+        3.4625000000000004
+      ],
+      "distance": 0.27500000000000036,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0Euf9g4QXEq8A7hQ_TJzAJ",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 495.0,
+            "length": 5360.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2dGpvcm819TQAfhkCVuCid",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        0.022747520859913998,
+        17.862137258336656,
+        3.4625000000000004
+      ],
+      "distance": 0.27500000000000036,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "0lQXxHLSPDcRUPm44DjuE8",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0VDmXL0irFBQIj_OFfb06O",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 410.0,
+            "length": 5495.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "1yPXtKH4f2BeAuHHcdt5Lk",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "0lQXxHLSPDcRUPm44DjuE8",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        5.9955,
+        12.108015625,
+        7.0565
+      ],
+      "distance": 0.26312838663200644,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2btP5qD$956uppnE0mO_cq",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 495.0,
+            "length": 5360.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "29xk_$qIbCOgP7vSpke9iB",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        6.0045,
+        17.891984375,
+        7.0565
+      ],
+      "distance": 0.26312838663200644,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "04abz83j5A8PMS7ByXePuw",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2btP5qD$956uppnE0mO_cq",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 495.0,
+            "length": 5360.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0UVQH2Mhb7GPkhkMGV0clo",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "04abz83j5A8PMS7ByXePuw",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        6.0045,
+        11.891984375,
+        7.0565
+      ],
+      "distance": 0.26312838663200644,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "3jsGoXV_D3t90G4rWT6qAM",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 495.0,
+            "length": 5360.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2BLVXri5nC3e1IwwL1qF1I",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        0.004499999999999999,
+        17.891796875,
+        7.0625
+      ],
+      "distance": 0.27500000000000036,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "0lQXxHLSPDcRUPm44DjuE8",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2x4pSUurX6qwUCLoFuMW$K",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 410.0,
+            "length": 5360.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0JsVMKgxzAmx8bIVtoExOJ",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "0lQXxHLSPDcRUPm44DjuE8",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        6.002840323733656,
+        11.850000000000001,
+        3.5441149193294685
+      ],
+      "distance": 0.009999999999999789,
+      "entities": [
+        {
+          "entity": "IfcBeam",
+          "guid": "3IKRVxwD5Fsf628ryLByax",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "2RPuhSX6f3mBEHQfjwO$Bu",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2PAkwzhKvCa8Mz2jMcB0H5",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 495.0,
+            "length": 5360.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        6.00485470908713,
+        17.85,
+        3.538803421678563
+      ],
+      "distance": 0.010000000000001565,
+      "entities": [
+        {
+          "entity": "IfcBeam",
+          "guid": "1nLk7jS$T1oQNFaetW4Y6g",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "04abz83j5A8PMS7ByXePuw",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "04abz83j5A8PMS7ByXePuw",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0Euf9g4QXEq8A7hQ_TJzAJ",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 495.0,
+            "length": 5360.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        0.003742553740855508,
+        12.15,
+        7.143315613291204
+      ],
+      "distance": 0.009999999999998012,
+      "entities": [
+        {
+          "entity": "IfcBeam",
+          "guid": "3liWvdGVb1IvaBd6g4rMqu",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "1UBXrzvsnCnRWalIJvwGDR",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "1UBXrzvsnCnRWalIJvwGDR",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "2x4pSUurX6qwUCLoFuMW$K",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 410.0,
+            "length": 5360.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        0.0017730244352126812,
+        11.850000000000001,
+        7.144675081213427
+      ],
+      "distance": 0.009999999999999787,
+      "entities": [
+        {
+          "entity": "IfcBeam",
+          "guid": "0Kgwtjf314IhAV86JecvJx",
+          "material": "STEEL",
+          "spec": "S355J2",
+          "sizes": {
+            "height": 10.0,
+            "width": 10.0,
+            "length": 20.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "1UBXrzvsnCnRWalIJvwGDR",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcColumn",
+          "guid": "1UBXrzvsnCnRWalIJvwGDR",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0y_iufJjPEZA4fC8e5w6iY",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 410.0,
+            "length": 5360.0
+          }
+        }
+      ],
+      "clash_type": [
+        "protrusion",
+        "pierce"
+      ]
+    }
+  ],
+  "MISCELLANEOUS<->STEEL": [
+    {
+      "coords": [
+        0.09301302083333332,
+        12.1395,
+        3.4625000000000004
+      ],
+      "distance": 0.27500000000000036,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "1UBXrzvsnCnRWalIJvwGDR",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "0VDmXL0irFBQIj_OFfb06O",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 410.0,
+            "length": 5495.0
+          }
+        }
+      ],
+      "clash_type": [
+        "pierce"
+      ]
+    },
+    {
+      "coords": [
+        0.08848697916666667,
+        11.8605,
+        3.4625
+      ],
+      "distance": 0.27500000000000036,
+      "entities": [
+        {
+          "entity": "IfcColumn",
+          "guid": "1UBXrzvsnCnRWalIJvwGDR",
+          "material": "STEEL",
+          "spec": "S355J2H",
+          "sizes": {
+            "height": 310.0,
+            "width": 300.0,
+            "length": 7200.0
+          }
+        },
+        {
+          "entity": "IfcBeam",
+          "guid": "31uThuwJv9PBg_4N_SQg3u",
+          "material": "MISCELLANEOUS",
+          "spec": "ZeroWeight",
+          "sizes": {
+            "height": 275.0,
+            "width": 410.0,
+            "length": 5495.0
+          }
+        }
+      ],
+      "clash_type": [
+        "pierce"
+      ]
+    }
+  ]
+}
