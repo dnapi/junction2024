@@ -100,7 +100,7 @@ Classes similar to `IfcArbitraryClosedProfileDef` in IFC files define profile sh
 - **Purpose**: Represents an open curve profile that can be used for defining the cross-section of elements where the profile is not closed (e.g., paths or rails).
 - **Attributes**:
   - `Curve`: The defining open curve of the profile.
-- **Use Case**: Used for structural elements like railings or beams with open cross-sections.
+ - **Use Case**: Used for structural elements like railings or beams with open cross-sections.
 
 ## 3. **IfcArbitraryProfileDefWithVoids**
 - **Purpose**: Extends `IfcArbitraryClosedProfileDef` by allowing voids within the profile, creating holes in a closed profile.
