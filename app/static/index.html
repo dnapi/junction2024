@@ -8,305 +8,28 @@
       href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap"
       rel="stylesheet"
     />
-    <style>
-      .background-div {
-        position: absolute;
-        left: 0%;
-        top: 0%;
-        background-image: url("/static/assets/background.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        height: 860px;
-        width: 100%;
-        opacity: 0.4;
-      }
-      .background-div::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-      }
-
-      .background-div > * {
-        position: relative;
-        z-index: 2;
-      }
-      .beamrx-logo {
-        position: absolute;
-        left: 2.4%;
-        top: 3%;
-        background-image: url("/static/assets/beamrx.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-        height: 100px;
-        width: 300px;
-      }
-      .peikko-logo {
-        position: absolute;
-        right: 1%;
-        top: 5.1%;
-        background-image: url("/static/assets/peikko.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-        height: 100px;
-        width: 400px;
-      }
-      .table-settings {
-        position: absolute;
-        left: 27.8%;
-        top: 20%;
-        height: 640px;
-        width: 770px;
-        background-color: rgba(26, 26, 26, 0.8);
-        border-radius: 45px;
-      }
-      .table-results {
-        position: absolute;
-        left: 3.1%;
-        top: 20%;
-        height: 550px;
-        width: 1615px;
-        background-color: rgba(26, 26, 26, 0.8);
-        border-radius: 45px;
-      }
-      .button {
-        position: absolute;
-        top: 90%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        color: #fff;
-        font: 400 28px Acme, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .button-upload {
-        padding: 12px 80px;
-        left: 3.1%;
-      }
-      .button-download {
-        padding: 12px 80px;
-        left: 70.5%;
-      }
-      .button-type-selector {
-        padding: 12px 50px;
-      }
-      .dropdown {
-        top: 90%;
-        left: 88.7%;
-        position: absolute;
-        display: inline-block;
-      }
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        border-radius: 10%;
-        min-width: 100px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-      .dropdown-content a {
-        color: black;
-        padding: 10px 12px;
-        text-decoration: none;
-        display: block;
-      }
-      .dropdown-content a:hover {
-        background-color: #ddd;
-      }
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      /* Model view settings */
-      .model-view-settings-train-model-button {
-        position: absolute;
-        top: 87%;
-        left: 7%;
-        border-radius: 45px;
-        padding: 10px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .model-view-settings-form-table {
-        position: absolute;
-        top: 87%;
-        left: 62.5%;
-        border-radius: 45px;
-        padding: 10px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .model-view-settings-title {
-        position: absolute;
-        left: 21%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 40px Lato, sans-serif;
-      }
-      .model-view-settings-tender-number {
-        position: absolute;
-        left: 7.5%;
-        top: 11%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 32px Lato, sans-serif;
-      }
-      .model-view-settings-input-field {
-        position: absolute;
-        left: 10%;
-        top: 25%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-open-tender {
-        position: absolute;
-        top: 20%;
-        right: 10.5%;
-        border-radius: 45px;
-        padding: 10px 50px;
-        background-color: rgba(0, 112, 185, 1);
-        color: #fff;
-        font: 400 24px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-      .model-view-settings-size-filter {
-        position: absolute;
-        left: 5.5%;
-        top: 30%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 32px Lato, sans-serif;
-      }
-      .model-view-settings-length {
-        position: absolute;
-        left: 5.5%;
-        top: 40%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-width {
-        position: absolute;
-        left: 5.5%;
-        top: 48%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-height {
-        position: absolute;
-        left: 5.5%;
-        top: 56%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-tolerance {
-        position: absolute;
-        left: 5.5%;
-        top: 64%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-ifc-file {
-        position: absolute;
-        left: 5.5%;
-        top: 72%;
-        padding: 10px 50px;
-        color: #fff;
-        font: 400 28px Lato, sans-serif;
-      }
-      .model-view-settings-length-input {
-        position: absolute;
-        right: 10%;
-        top: 45%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-width-input {
-        position: absolute;
-        right: 10%;
-        top: 53%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-height-input {
-        position: absolute;
-        right: 10%;
-        top: 61%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-tolerance-input {
-        position: absolute;
-        right: 10%;
-        top: 69%;
-        border-radius: 20px;
-        background-color: rgba(26, 26, 26, 0.8);
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        color: #fff;
-        font: 400 20px Lato, sans-serif;
-        padding: 5px 31px 5px;
-      }
-      .model-view-settings-upload-ifc {
-        position: absolute;
-        top: 77%;
-        right: 15%;
-        border-radius: 45px;
-        padding: 5px 50px;
-        background-color: rgba(26, 26, 26, 0.8);
-        color: #fff;
-        font: 400 24px Lato, sans-serif;
-        border: none;
-        cursor: pointer;
-      }
-    </style>
+    <link href="/static/styles.css" rel="stylesheet" />
   </head>
   <body>
     <div class="background-div"></div>
     <div class="beamrx-logo"></div>
     <div class="peikko-logo"></div>
 
+    <!-- Settings container -->
+
     <div id="tableSettings" class="table-settings">
       <h1 class="model-view-settings-title">Model view settings</h1>
       <h2 class="model-view-settings-tender-number">Tender number</h2>
       <h2 class="model-view-settings-size-filter">Element size filter</h2>
-      <button class="model-view-settings-train-model-button">
+      <button
+        class="model-view-settings-train-model-button"
+        onclick="showTrainingTable()"
+      >
         Training model
       </button>
-      <button class="model-view-settings-form-table">Form table</button>
+      <button class="model-view-settings-form-table" onclick="sendFormData()">
+        Form table
+      </button>
       <button class="model-view-settings-open-tender">Open tender</button>
       <input
         id="tender-input"
@@ -316,10 +39,12 @@
         aria-label="Enter tender number"
       />
 
-      <h2 class="model-view-settings-length">Length, mm</h2>
-      <h2 class="model-view-settings-width">Width, mm</h2>
-      <h2 class="model-view-settings-height">Height, mm</h2>
-      <h2 class="model-view-settings-tolerance">Tolerance</h2>
+      <h2 class="model-view-settings-length" id="length-input">Length, mm</h2>
+      <h2 class="model-view-settings-width" id="width-input">Width, mm</h2>
+      <h2 class="model-view-settings-height" id="height-input">Height, mm</h2>
+      <h2 class="model-view-settings-tolerance" id="tolerance-input">
+        Tolerance
+      </h2>
       <h2 class="model-view-settings-ifc-file">Upload IFC file</h2>
       <input
         id="length-input"
@@ -349,46 +74,204 @@
         placeholder="Enter tolerance"
         aria-label="Enter tolerance"
       />
-      <button class="model-view-settings-upload-ifc">Select file</button>
-    </div>
-
-    <div id="tableResults" class="table-results"></div>
-    <button id="uploadButton" class="button button-upload">
-      Upload information
-    </button>
-    <button id="downloadButton" class="button button-download">Download</button>
-    <div class="dropdown">
-      <button id="dropdownButton" class="button button-type-selector">
-        .csv
+      <button
+        class="model-view-settings-upload-ifc"
+        onclick="triggerIFCFileUpload()"
+      >
+        Select file
       </button>
-      <div class="dropdown-content">
-        <a href="#" onclick="updateButtonText('.csv')">.csv</a>
-        <a href="#" onclick="updateButtonText('.xlsx')">.xlsx</a>
-      </div>
+      <input type="file" id="ifc-file-upload" style="display: none" />
+      <label class="table-settings-checkbox">
+        <input type="checkbox" id="sizeFilterCheckbox" />
+        Strict mode
+      </label>
     </div>
 
-    <script>
-      function updateButtonText(selection) {
-        const button = document.getElementById("dropdownButton");
-        button.textContent = selection;
-      }
-    </script>
+    <!-- Training container -->
+
+    <div id="tableTraining" class="table-training">
+      <h1 class="training-model-header">Training model</h1>
+      <h2 class="training-model-upload-ifc-header">Upload IFC file</h2>
+      <h2 class="training-model-upload-excel-header">Upload Excel file</h2>
+      <button
+        class="training-model-upload-ifc"
+        onclick="triggerIFCFileUploadTraining()"
+      >
+        Select file
+      </button>
+      <input type="file" id="ifc-file-upload-training" style="display: none" />
+
+      <button
+        class="training-model-upload-excel"
+        onclick="triggerExcelFileUpload()"
+      >
+        Select file
+      </button>
+      <input
+        type="file"
+        id="excel-file-upload-training"
+        style="display: none"
+      />
+      <h2 class="training-model-standard-field-name">
+        Standardized field name
+      </h2>
+      <h2 class="training-model-excel-field-name">Field name in Excel file</h2>
+      <div class="material-type-1-container">
+        <h1 class="material-type-common material-type-1" tabindex="0">
+          Connection-type
+        </h1>
+      </div>
+      <div class="material-type-2-container">
+        <h1 class="material-type-common material-type-2" tabindex="0">
+          Material
+        </h1>
+      </div>
+      <div class="material-type-3-container">
+        <h1 class="material-type-common material-type-3" tabindex="0">
+          LxWxH, mm
+        </h1>
+      </div>
+      <div class="material-type-4-container">
+        <h1 class="material-type-common material-type-4" tabindex="0">
+          Connection item
+        </h1>
+      </div>
+      <div class="material-type-5-container">
+        <h1 class="material-type-common material-type-5" tabindex="0">
+          Comments
+        </h1>
+      </div>
+
+      <input
+        id="connection-type-accord"
+        class="connection-type-accord"
+        type="text"
+        placeholder="Enter connection type as in an excel file"
+        aria-label="Enter connection type as in an excel file"
+      />
+      <input
+        id="material-accord"
+        class="material-accord"
+        type="text"
+        placeholder="Enter material as in an excel file"
+        aria-label="Enter material as in an excel file"
+      />
+      <input
+        id="sizes-accord"
+        class="sizes-accord"
+        type="text"
+        placeholder="Enter sizes as in an excel file"
+        aria-label="Enter sizes as in an excel file"
+      />
+      <input
+        id="connection-item-accord"
+        class="connection-item-accord"
+        type="text"
+        placeholder="Enter connection item as in an excel file"
+        aria-label="Enter connection item as in an excel file"
+      />
+      <input
+        id="comments-accord"
+        class="comments-accord"
+        type="text"
+        placeholder="Enter comments as in an excel file"
+        aria-label="Enter comments as in an excel file"
+      />
+
+      <button class="training-model-back-to-menu" onclick="showSettingsTable()">
+        Back
+      </button>
+      <button class="training-model-train-button" onclick="showTrainingTable()">
+        Train
+      </button>
+    </div>
+
+    <!-- Summary table container -->
+
+    <!-- Summary table container 2 -->
+
     <script>
       function showSettingsTable() {
         document.getElementById("tableSettings").style.display = "block";
-        document.getElementById("tableResults").style.display = "none";
+        document.getElementById("tableTraining").style.display = "none";
       }
 
-      function showResultsTable() {
+      function showTrainingTable() {
         document.getElementById("tableSettings").style.display = "none";
-        document.getElementById("tableResults").style.display = "block";
+        document.getElementById("tableTraining").style.display = "block";
       }
 
       document.getElementById("tableSettings").style.display = "block";
-      document.getElementById("tableResults").style.display = "none";
-      document.getElementById("uploadButton").style.display = "none";
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("dropdownButton").style.display = "none";
+      document.getElementById("tableTraining").style.display = "none";
+    </script>
+    <script>
+      function triggerIFCFileUpload() {
+        document.getElementById("ifc-file-upload").click();
+      }
+    </script>
+    <script>
+      function triggerIFCFileUploadTraining() {
+        document.getElementById("ifc-file-upload-training").click();
+      }
+    </script>
+    <script>
+      function triggerExcelFileUpload() {
+        document.getElementById("excel-file-upload-training").click();
+      }
+    </script>
+    <script>
+      function sendFormData() {
+        // Gather form data from inputs
+        const fileInput = document.getElementById("ifc-file-upload");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Please select a file");
+          return;
+        }
+
+        const data = {
+          tenderNumber: document.getElementById("tender-input").value,
+          length: document.getElementById("length-input").value,
+          width: document.getElementById("width-input").value,
+          height: document.getElementById("height-input").value,
+          tolerance: document.getElementById("tolerance-input").value,
+          strictMode: document.getElementById("sizeFilterCheckbox").checked,
+        };
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("tenderNumber", data.tenderNumber);
+        formData.append("length", data.length);
+        formData.append("width", data.width);
+        formData.append("height", data.height);
+        formData.append("tolerance", data.tolerance);
+        formData.append("strictMode", data.strictMode);
+
+        // Send the data to the backend using fetch
+        fetch("http://127.0.0.1:8000/process_ifc", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to send data");
+            }
+          })
+          .then((responseData) => {
+            console.log("Server response:", responseData);
+            alert("Data sent successfully!");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Error sending data");
+          });
+      }
     </script>
   </body>
 </html>
