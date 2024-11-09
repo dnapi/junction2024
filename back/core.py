@@ -1,4 +1,3 @@
-# %%
 import math
 import multiprocessing
 from collections import defaultdict
@@ -8,29 +7,8 @@ from pathlib import Path
 import ifcopenshell
 import ifcopenshell.geom
 
-# TODO: Convert to CLI utility
 
-# %% Input data
-# TODO: Wrap it up to .yaml or .json input file
-fpath = Path("../../ifc_examples_peikko/One_Section.ifc")
-pairs = [
-    ("IfcWall", "IfcWall"),
-    ("IfcWall", "IfcBeam"),
-    ("IfcWall", "IfcColumn"),
-    ("IfcBeam", "IfcBeam"),
-    ("IfcBeam", "IfcColumn"),
-    ("IfcColumn", "IfcColumn"),
-]
-tolerance = 0.002  # TODO: Research the tolerance value
-merge_distance = 0.1  # [m]
-filter_dimensions = {"height": 200e-3, "width": 100e-3, "length": 1.5}
-is_all = True
-
-# %%
-model = ifcopenshell.open(fpath)
-
-
-# %%
+# Find clashes
 def _generate_tree(model: ifcopenshell.file) -> ifcopenshell.geom.tree:
     tree = ifcopenshell.geom.tree()
     settings = ifcopenshell.geom.settings()
@@ -49,7 +27,7 @@ def _generate_tree(model: ifcopenshell.file) -> ifcopenshell.geom.tree:
     return tree
 
 
-def find_clashes(
+def _find_clashes(
     model: ifcopenshell.file, pairs: list[set[str]], tolerance: float
 ) -> list:
     tree = _generate_tree(model)
@@ -68,10 +46,7 @@ def find_clashes(
     return clashes
 
 
-clashes = find_clashes(model, pairs, tolerance)
-
-
-# %% Build intersections dictionary
+# Build intersections dictionary
 def _get_material(entity: ifcopenshell.entity_instance) -> str:
     material = None
     if entity.HasAssociations:
@@ -115,7 +90,9 @@ def _extract_entity(entity: ifcopenshell.entity_instance) -> dict:
     }
 
 
-def convert(clashes: list[ifcopenshell.ifcopenshell_wrapper.clash]) -> dict:
+def _convert(
+    model: ifcopenshell.file, clashes: list[ifcopenshell.ifcopenshell_wrapper.clash]
+) -> dict:
     """Convert ifcopenshell clashes to intersections dictionary"""
 
     id_to_intersection = {}
@@ -137,17 +114,13 @@ def convert(clashes: list[ifcopenshell.ifcopenshell_wrapper.clash]) -> dict:
     return id_to_intersection
 
 
-id_to_intersection = convert(clashes)
-len(id_to_intersection)
-
-
-# %% Find close intersections
+# Find close intersections
 @cache
 def _distance(*args) -> float:
     return math.sqrt(sum((lhs - rhs) ** 2 for lhs, rhs in zip(args[0:3], args[3:6])))
 
 
-def lookup_closest(id_to_intersection: dict, merge_distance: float) -> set[frozenset]:
+def _lookup_closest(id_to_intersection: dict, merge_distance: float) -> set[frozenset]:
     """Lookup closest intersections by merge_distance."""
 
     closest = set()
@@ -164,12 +137,8 @@ def lookup_closest(id_to_intersection: dict, merge_distance: float) -> set[froze
     return closest
 
 
-closest = lookup_closest(id_to_intersection, merge_distance)
-closest
-
-
-# %% Filter intersections out by LxWxH from filter_dimensions
-def filter_by_size(
+# Filter intersections out by LxWxH from filter_dimensions
+def _filter_by_size(
     filter_dimensions: dict[str, float], is_all: bool, id_to_intersection: dict
 ) -> None:
     for id, intersection in id_to_intersection.items():
@@ -187,12 +156,7 @@ def filter_by_size(
             del id_to_intersection[id]
 
 
-filter_by_size(filter_dimensions, is_all, id_to_intersection)
-len(id_to_intersection)
-
-
-# %%
-def merge_nearby(closest: set[frozenset], id_to_intersection: dict):
+def _merge_nearby(closest: set[frozenset], id_to_intersection: dict):
     for keys in closest:
         keys = list(keys)
         for key in keys[1:]:
@@ -205,13 +169,9 @@ def merge_nearby(closest: set[frozenset], id_to_intersection: dict):
             del id_to_intersection[key]
 
 
-merge_nearby(closest, id_to_intersection)
-len(id_to_intersection)
-
-
-# %% Group items by the combination of elem_a and elem_b materials
+# Group items by the combination of elem_a and elem_b materials
 # TODO: STEEL treatment
-def groupby_material(id_to_intersection: dict) -> dict:
+def _groupby_material(id_to_intersection: dict) -> dict:
     grouped = defaultdict(list)
     for intersection in id_to_intersection.values():
         group = "<->".join(
@@ -221,7 +181,60 @@ def groupby_material(id_to_intersection: dict) -> dict:
     return dict(grouped)
 
 
-grouped = groupby_material(id_to_intersection)
-{name: len(group) for name, group in dict(grouped).items()}
+def core(
+    fpath: Path,
+    pairs: list[tuple[str]],
+    tolerance: float,  # [mm]
+    merge_distance: float,  # [m]
+    filter_dimensions: dict[str, float],  # [m]
+    is_all: bool,
+) -> dict:
+    model = ifcopenshell.open(Path(fpath))
 
-# %%
+    clashes = _find_clashes(model, pairs, tolerance)
+
+    id_to_intersection = _convert(model, clashes)
+    # len(id_to_intersection)
+
+    closest = _lookup_closest(id_to_intersection, merge_distance)
+    # closest
+
+    _filter_by_size(filter_dimensions, is_all, id_to_intersection)
+    # len(id_to_intersection)
+
+    _merge_nearby(closest, id_to_intersection)
+    # len(id_to_intersection)
+
+    return _groupby_material(id_to_intersection)
+
+
+# input = dict(
+#     fpath=Path("../ifc_examples_peikko/One_Section.ifc"),
+#     pairs=[
+#         ("IfcWall", "IfcWall"),
+#         ("IfcWall", "IfcBeam"),
+#         ("IfcWall", "IfcColumn"),
+#         ("IfcBeam", "IfcBeam"),
+#         ("IfcBeam", "IfcColumn"),
+#         ("IfcColumn", "IfcColumn"),
+#     ],
+#     tolerance=0.002,  # TODO: Research the tolerance value
+#     merge_distance=0.1,  # [m]
+#     filter_dimensions={"height": 200e-3, "width": 100e-3, "length": 1.5},
+#     is_all=True,
+# )
+# grouped = core(**input)
+# # grouped = {name: len(group) for name, group in dict(grouped).items()}
+# grouped
+
+# # %%
+# import json
+
+
+# def set_default(obj):
+#     if isinstance(obj, set):
+#         return list(obj)
+#     raise TypeError
+
+# with open("out.json", "w") as outfile:
+#     json.dump(grouped, outfile, default=set_default, indent=2)
