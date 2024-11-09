@@ -7,10 +7,6 @@ from pathlib import Path
 
 import ifcopenshell
 import ifcopenshell.geom
-import numpy as np
-import pandas as pd
-
-# import matplotlib.pyplot as plt
 
 # TODO: Convert to CLI utility
 
@@ -28,7 +24,7 @@ pairs = [
 tolerance = 0.002  # TODO: Research the tolerance value
 merge_distance = 0.1  # [m]
 filter_dimensions = {"height": 200e-3, "width": 100e-3, "length": 1.5}
-is_strict = True
+is_all = True
 
 # %%
 model = ifcopenshell.open(fpath)
@@ -48,7 +44,6 @@ if iterator.initialize():
 
 
 # %% Find clashes
-# TODO: Wrap it up to a function
 clashes = []
 for pair in pairs:
     clashes += list(
@@ -72,6 +67,7 @@ def _get_material(entity: ifcopenshell.entity_instance) -> str:
     return material
 
 
+@cache
 def _get_sizes(entity: ifcopenshell.entity_instance) -> dict:
     if not entity.IsDefinedBy:
         return {}
@@ -119,7 +115,7 @@ for clash in clashes:
         ["protrusion", "pierce", "collision", "clearance"][clash.clash_type]
     }
     id_to_intersection["".join([entry["guid"] for entry in raw["entities"]])] = raw
-id_to_intersection
+len(id_to_intersection)
 
 
 # %% Find close intersections
@@ -143,15 +139,21 @@ for outer_key, outer in id_to_intersection.items():
 merges
 
 
-# %%
-# TODO: Filter intersections out by LxWxH from filter_dimensions
-# for intersection in intersections:
-#     for entity in intersection["entities"]:
-#         entity["sizes"] = {
-#             key: value
-#             for key, value in entity["sizes"].items()
-#             if key in ["Height", "Width", "Length"]
-#         }
+# %% Filter intersections out by LxWxH from filter_dimensions
+for id, intersection in id_to_intersection.items():
+    is_filtered = False
+    for entity in intersection["entities"]:
+        is_less = [
+            entity["sizes"][dim] < filter_dimensions[dim]
+            for dim in ["height", "width", "length"]
+        ]
+        if (is_all and all(is_less)) or (not is_all and any(is_less)):
+            is_filtered = True
+            break
+
+    if is_filtered:
+        del id_to_intersection[id]
+len(id_to_intersection)
 
 
 # %% Merge close intersections
@@ -166,7 +168,7 @@ for key in keys[1:]:
         id_to_intersection[key]["clash_type"]
     )
     del id_to_intersection[key]
-id_to_intersection
+len(id_to_intersection)
 
 
 # %% Group items by the combination of elem_a and elem_b materials
