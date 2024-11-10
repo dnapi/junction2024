@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BeamrX</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/static/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="background-div"></div>
+    <div class="beamrx-logo"></div>
+    <div class="peikko-logo"></div>
+
+    <!-- Settings container -->
+
+    <div id="tableSettings" class="table-settings">
+      <h1 class="model-view-settings-title">Model view settings</h1>
+      <h2 class="model-view-settings-tender-number">Tender number</h2>
+      <h2 class="model-view-settings-size-filter">Element size filter</h2>
+      <button
+        class="model-view-settings-train-model-button"
+        onclick="showTrainingTable()"
+      >
+        Training model
+      </button>
+      <button class="model-view-settings-form-table" onclick="sendFormData()">
+        Form table
+      </button>
+      <button class="model-view-settings-open-tender">Open tender</button>
+      <input
+        id="tender-input"
+        class="model-view-settings-input-field"
+        type="text"
+        placeholder="Enter tender number"
+        aria-label="Enter tender number"
+      />
+
+      <h2 class="model-view-settings-length" id="length-input">Length, mm</h2>
+      <h2 class="model-view-settings-width" id="width-input">Width, mm</h2>
+      <h2 class="model-view-settings-height" id="height-input">Height, mm</h2>
+      <h2 class="model-view-settings-tolerance" id="tolerance-input">
+        Tolerance
+      </h2>
+      <h2 class="model-view-settings-ifc-file">Upload IFC file</h2>
+      <input
+        id="length-input"
+        class="model-view-settings-length-input"
+        type="text"
+        placeholder="Enter length in mm"
+        aria-label="Enter length in mm"
+      />
+      <input
+        id="width-input"
+        class="model-view-settings-width-input"
+        type="text"
+        placeholder="Enter width in mm"
+        aria-label="Enter width in mm"
+      />
+      <input
+        id="height-input"
+        class="model-view-settings-height-input"
+        type="text"
+        placeholder="Enter height in mm"
+        aria-label="Enter height in mm"
+      />
+      <input
+        id="tolerance-input"
+        class="model-view-settings-tolerance-input"
+        type="text"
+        placeholder="Enter tolerance"
+        aria-label="Enter tolerance"
+      />
+      <button
+        class="model-view-settings-upload-ifc"
+        onclick="triggerIFCFileUpload()"
+      >
+        Select file
+      </button>
+      <input type="file" id="ifc-file-upload" style="display: none" />
+      <label class="table-settings-checkbox">
+        <input type="checkbox" id="sizeFilterCheckbox" />
+        Strict mode
+      </label>
+    </div>
+
+    <!-- Training container -->
+
+    <div id="tableTraining" class="table-training">
+      <h1 class="training-model-header">Training model</h1>
+      <h2 class="training-model-upload-ifc-header">Upload IFC file</h2>
+      <h2 class="training-model-upload-excel-header">Upload Excel file</h2>
+      <button
+        class="training-model-upload-ifc"
+        onclick="triggerIFCFileUploadTraining()"
+      >
+        Select file
+      </button>
+      <input type="file" id="ifc-file-upload-training" style="display: none" />
+
+      <button
+        class="training-model-upload-excel"
+        onclick="triggerExcelFileUpload()"
+      >
+        Select file
+      </button>
+      <input
+        type="file"
+        id="excel-file-upload-training"
+        style="display: none"
+      />
+      <h2 class="training-model-standard-field-name">
+        Standardized field name
+      </h2>
+      <h2 class="training-model-excel-field-name">Field name in Excel file</h2>
+      <div class="material-type-1-container">
+        <h1 class="material-type-common material-type-1" tabindex="0">
+          Connection-type
+        </h1>
+      </div>
+      <div class="material-type-2-container">
+        <h1 class="material-type-common material-type-2" tabindex="0">
+          Material
+        </h1>
+      </div>
+      <div class="material-type-3-container">
+        <h1 class="material-type-common material-type-3" tabindex="0">
+          LxWxH, mm
+        </h1>
+      </div>
+      <div class="material-type-4-container">
+        <h1 class="material-type-common material-type-4" tabindex="0">
+          Connection item
+        </h1>
+      </div>
+      <div class="material-type-5-container">
+        <h1 class="material-type-common material-type-5" tabindex="0">
+          Comments
+        </h1>
+      </div>
+
+      <input
+        id="connection-type-accord"
+        class="connection-type-accord"
+        type="text"
+        placeholder="Enter connection type as in an excel file"
+        aria-label="Enter connection type as in an excel file"
+      />
+      <input
+        id="material-accord"
+        class="material-accord"
+        type="text"
+        placeholder="Enter material as in an excel file"
+        aria-label="Enter material as in an excel file"
+      />
+      <input
+        id="sizes-accord"
+        class="sizes-accord"
+        type="text"
+        placeholder="Enter sizes as in an excel file"
+        aria-label="Enter sizes as in an excel file"
+      />
+      <input
+        id="connection-item-accord"
+        class="connection-item-accord"
+        type="text"
+        placeholder="Enter connection item as in an excel file"
+        aria-label="Enter connection item as in an excel file"
+      />
+      <input
+        id="comments-accord"
+        class="comments-accord"
+        type="text"
+        placeholder="Enter comments as in an excel file"
+        aria-label="Enter comments as in an excel file"
+      />
+
+      <button class="training-model-back-to-menu" onclick="showSettingsTable()">
+        Back
+      </button>
+      <button class="training-model-train-button" onclick="showTrainingTable()">
+        Train
+      </button>
+    </div>
+
+    <!-- Summary table container -->
+
+    <!-- Summary table container 2 -->
+
+    <script>
+      function showSettingsTable() {
+        document.getElementById("tableSettings").style.display = "block";
+        document.getElementById("tableTraining").style.display = "none";
+      }
+
+      function showTrainingTable() {
+        document.getElementById("tableSettings").style.display = "none";
+        document.getElementById("tableTraining").style.display = "block";
+      }
+
+      document.getElementById("tableSettings").style.display = "block";
+      document.getElementById("tableTraining").style.display = "none";
+    </script>
+    <script>
+      function triggerIFCFileUpload() {
+        document.getElementById("ifc-file-upload").click();
+      }
+    </script>
+    <script>
+      function triggerIFCFileUploadTraining() {
+        document.getElementById("ifc-file-upload-training").click();
+      }
+    </script>
+    <script>
+      function triggerExcelFileUpload() {
+        document.getElementById("excel-file-upload-training").click();
+      }
+    </script>
+    <script>
+      function sendFormData() {
+        // Gather form data from inputs
+        const fileInput = document.getElementById("ifc-file-upload");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Please select a file");
+          return;
+        }
+
+        const data = {
+          tenderNumber: document.getElementById("tender-input").value,
+          length: document.getElementById("length-input").value,
+          width: document.getElementById("width-input").value,
+          height: document.getElementById("height-input").value,
+          tolerance: document.getElementById("tolerance-input").value,
+          strictMode: document.getElementById("sizeFilterCheckbox").checked,
+        };
+
+        const formData = new FormData();
+        formData.append("ifc_file", file);
+//        formData.append("tenderNumber", data.tenderNumber);
+//        formData.append("length", data.length);
+//        formData.append("width", data.width);
+//        formData.append("height", data.height);
+//        formData.append("tolerance", data.tolerance);
+//        formData.append("strictMode", data.strictMode);
+
+        // Send the data to the backend using fetch
+fetch("http://127.0.0.1:8000/process_ifc", {
+  method: "POST",
+  body: formData,
+})
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to send data");
+    }
+  })
+  .then((responseData) => {
+    console.log("Server response:", responseData);
+    alert("Data sent successfully!");
+  })
+  .catch((error) => {
+  console.error("Error:", error.message);
+  alert("Error sending data: " + error.message);
+});
+      }
+    </script>
+  </body>
+</html>
