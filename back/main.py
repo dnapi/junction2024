@@ -7,28 +7,21 @@ from typing import Optional, Dict, Any
 import os
 import json
 from core import core  # Импорт функции core из модуля core
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Vite dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Указание директории для временных файлов и статических файлов
 TEMP_DIR = "./temp_files"
-STATIC_DIR = "./static"
 os.makedirs(TEMP_DIR, exist_ok=True)
-os.makedirs(STATIC_DIR, exist_ok=True)
-
-# Подключение статических файлов
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-
-# Маршрут для отдачи главной страницы
-@app.get("/", response_class=HTMLResponse)
-async def read_root():
-    file_path = os.path.join(STATIC_DIR, "index.html")
-    if not os.path.exists(file_path):
-        print("File not found:", os.path.abspath(file_path))  # Отладочный вывод
-        return HTMLResponse(content="index.html not found", status_code=404)
-    with open(file_path, "r") as file:
-        content = file.read()
-    return HTMLResponse(content=content)
 
 # Функция для преобразования set в list при сериализации JSON
 def set_default(obj):
@@ -58,6 +51,12 @@ async def upload_ifc(
         file_content = await ifc_file.read()
         temp_file.write(file_content)
 
+    # Обработка параметров с использованием значений по умолчанию при отсутствии значений
+    tolerance_value = optional_params.get("tolerance", "0.002")
+    height_value = optional_params.get("height", "200e-3")
+    width_value = optional_params.get("width", "100e-3")
+    length_value = optional_params.get("length", "1.5")
+
     # Создание словаря данных для передачи в core с параметрами по умолчанию
     request_data = dict(
         fpath=Path(temp_file_path),
@@ -69,12 +68,12 @@ async def upload_ifc(
             ("IfcBeam", "IfcColumn"),
             ("IfcColumn", "IfcColumn"),
         ],
-        tolerance=float(optional_params.get("tolerance", 0.002)),
+        tolerance=float(tolerance_value) if tolerance_value else 0.002,
         merge_distance=0.1,
         filter_dimensions={
-            "height": float(optional_params.get("height", 200e-3)),
-            "width": float(optional_params.get("width", 100e-3)),
-            "length": float(optional_params.get("length", 1.5))
+            "height": float(height_value) if height_value else 200e-3,
+            "width": float(width_value) if width_value else 100e-3,
+            "length": float(length_value) if length_value else 1.5
         },
         is_all=True
     )

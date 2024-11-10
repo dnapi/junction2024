@@ -240,37 +240,34 @@
         };
 
         const formData = new FormData();
-        formData.append("file", file);
-        formData.append("tenderNumber", data.tenderNumber);
-        formData.append("length", data.length);
-        formData.append("width", data.width);
-        formData.append("height", data.height);
-        formData.append("tolerance", data.tolerance);
-        formData.append("strictMode", data.strictMode);
+        formData.append("ifc_file", file);
+//        formData.append("tenderNumber", data.tenderNumber);
+//        formData.append("length", data.length);
+//        formData.append("width", data.width);
+//        formData.append("height", data.height);
+//        formData.append("tolerance", data.tolerance);
+//        formData.append("strictMode", data.strictMode);
 
         // Send the data to the backend using fetch
-        fetch("http://127.0.0.1:8000/process_ifc", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: formData,
-        })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error("Failed to send data");
-            }
-          })
-          .then((responseData) => {
-            console.log("Server response:", responseData);
-            alert("Data sent successfully!");
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            alert("Error sending data");
-          });
+fetch("http://127.0.0.1:8000/process_ifc", {
+  method: "POST",
+  body: formData,
+})
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to send data");
+    }
+  })
+  .then((responseData) => {
+    console.log("Server response:", responseData);
+    alert("Data sent successfully!");
+  })
+  .catch((error) => {
+  console.error("Error:", error.message);
+  alert("Error sending data: " + error.message);
+});
       }
     </script>
   </body>
