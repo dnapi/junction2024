@@ -155,18 +155,42 @@ def _filter_by_size(
         if is_filtered:
             del id_to_intersection[id]
 
-
 def _merge_nearby(closest: set[frozenset], id_to_intersection: dict):
     for keys in closest:
         keys = list(keys)
         for key in keys[1:]:
-            id_to_intersection[keys[0]]["entities"].extend(
-                id_to_intersection[key]["entities"]
-            )
-            id_to_intersection[keys[0]]["clash_type"].update(
-                id_to_intersection[key]["clash_type"]
-            )
-            del id_to_intersection[key]
+            current_intersection = id_to_intersection.get(key)
+            if current_intersection:
+                entities = current_intersection.get("entities", [])
+                clash_type = current_intersection.get("clash_type", {})
+                if keys[0] in id_to_intersection:
+                    id_to_intersection[keys[0]]["entities"].extend(entities)
+                    id_to_intersection[keys[0]]["clash_type"].update(clash_type)
+                    del id_to_intersection[key]
+            else:
+                print(f"Key not found: {key}")
+
+
+# def _merge_nearby(closest: set[frozenset], id_to_intersection: dict):
+#     for keys in closest:
+#         keys = list(keys)
+#         for key in keys[1:]:
+#             print(f"Checking key: {key}")
+#             if key in id_to_intersection:
+#                 print(id_to_intersection[key])
+#                 id_to_intersection[keys[0]]["entities"].extend(id_to_intersection[key]["entities"])
+#                 id_to_intersection[keys[0]]["clash_type"].update(id_to_intersection[key]["clash_type"])
+#                 del id_to_intersection[key]
+#             else:
+#                 print(f"Key not found: {key}")
+#             # print(key)
+#             # id_to_intersection[keys[0]]["entities"].extend(
+#             #     id_to_intersection.at(key)["entities"]
+#             # )
+#             # id_to_intersection[keys[0]]["clash_type"].update(
+#             #     id_to_intersection[key]["clash_type"]
+#             # )
+#             # del id_to_intersection[key]
 
 
 # Group items by the combination of elem_a and elem_b materials
