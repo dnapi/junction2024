@@ -2,6 +2,12 @@
 Junction2024
 
 
+This project is the result of the 48 hours work of the team of five
+at the Junction 2024. We have tackled a real-world problem provided by Peikko. Our tool enables users to specify elements of interest and then identifies the connections required in construction. It accurately detects the number of connections and the types of materials being connected, presenting the results in an organized table format. Additionally, we developed efficient C++ code capable of filtering IFC files, extracting only relevant elements, and generating a smaller, refined IFC file as a result.
+For a detailed description, ideas and further insights into our tool, check out the video here:
+See https://www.youtube.com/watch?v=nMjBj4VQUX4&t=9s for the tool discribtion and ideas.
+
+
 ## 1. Clone the GitHub Repository
 
 Navigate to the directory where you want to clone the project:
@@ -57,6 +63,12 @@ Run Vite in development mode:
 npm run dev
 ```
 The frontend will be available at the URL provided by Vite, typically http://127.0.0.1:5173.
+
+
+# Acknowledge
+Huge thanks to Peikko Peikko Group Corporation for the interesting challeng and for giving us the opportunity to innovate in such an impactful field and to Markus Tuuri Sampo Pilli-Sihvola for engaging discussions.
+A big shout-out to the organizers of Junction 2024 
+for creating an incredible environment that fosters collaboration and creativity!
 
 
 
